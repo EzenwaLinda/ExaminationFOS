@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Movies List</title>
+</head>
+<body>
+    <h1>Movies List</h1>
+    <a href="/add_movie">Add a New Movie</a>
+    <ul>
+        {% for movie in movies %}
+        <li>{{ movie.title }} - Genre: {{ movie.genre }}, Actors: {{ movie.actors }}, Year: {{ movie.publication_year }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
