@@ -1,11 +1,10 @@
 from flask import Flask, request, render_template, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 
-app = Flask(_name_)
+app = Flask(name)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///movies.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
-
 class Movie(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
@@ -13,8 +12,9 @@ class Movie(db.Model):
     actors = db.Column(db.String(255), nullable=False)
     publication_year = db.Column(db.Integer, nullable=False)
 
-def _repr_(self):
+    def repr(self):
         return f'<Movie {self.title}>'
+
 
 
 @app.before_first_request
@@ -25,10 +25,10 @@ def create_tables():
 @app.route('/movies')
 def movies():
     movies = Movie.query.all()
-    return render_template('movies.html', movies=movies)
+    return render_template('get_movies.html', movies=movies)
 
 
-@app.route('/add_movie', methods=['GET', 'POST'])
+@app.route('/add_movie', methods=['POST'])
 def add_movie():
     if request.method == 'POST':
         title = request.form['title']
@@ -39,9 +39,7 @@ def add_movie():
         db.session.add(new_movie)
         db.session.commit()
         return redirect(url_for('movies'))
-    return render_template('add_movie.html')
+    return render_template('add_movies.html')
 
-if _name_ == '_main_':
+if name == 'main':
     app.run(debug=True)
-
-
